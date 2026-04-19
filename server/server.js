@@ -21,7 +21,11 @@ app.use('/api/workouts', workoutRoutes);
 const PORT = process.env.PORT || 8080;
 
 initDb().then(() => {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(`Environment: ${process.env.NODE_ENV}`);
+    });
 }).catch(err => {
-    console.error('Failed to initialize database:', err);
+    console.error('CRITICAL ERROR: Failed to initialize database:', err);
+    process.exit(1); // Exit with failure so Cloud Run knows it failed
 });

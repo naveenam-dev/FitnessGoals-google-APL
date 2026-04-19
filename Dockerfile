@@ -1,5 +1,5 @@
-# Use Node.js slim image
-FROM node:24-slim
+# Use a full Node.js image to ensure native dependencies like sqlite3 work correctly
+FROM node:24
 
 # Set working directory
 WORKDIR /app
@@ -17,12 +17,13 @@ COPY . .
 RUN mkdir -p /app/data && chmod 777 /app/data
 
 # Set environment variables
+# Cloud Run will override PORT, but we set a default
 ENV PORT=8080
 ENV NODE_ENV=production
 ENV DATABASE_PATH=/app/data/fitness_aura.sqlite
 
-# Expose port
+# Expose port (Cloud Run ignores this but good for documentation)
 EXPOSE 8080
 
-# Start the application
+# Start the application, listening on all interfaces
 CMD ["node", "server/server.js"]
