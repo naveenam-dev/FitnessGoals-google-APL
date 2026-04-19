@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura | Fitness Consistency</title>
+    <!-- Modern Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar glass-panel">
+            <div class="logo">
+                <i class="fa-solid fa-fire-flame-curved"></i>
+                <span>AURA</span>
+            </div>
+            <ul class="nav-links" id="main-nav-links">
+                <li class="active" data-tab="dashboard"><i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span></li>
+                <li data-tab="log"><i class="fa-solid fa-plus-circle"></i> <span>Log Workout</span></li>
+                <li data-tab="history"><i class="fa-solid fa-clock-rotate-left"></i> <span>History</span></li>
+                <li data-tab="profile"><i class="fa-solid fa-user"></i> <span>Profile</span></li>
+                <li id="logout-btn" style="margin-top: auto;"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Logout</span></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-nav">
+                <div class="user-greeting">
+                    <h1 id="greeting-title">Ready to crush it today?</h1>
+                    <p class="date-display" id="current-date">...</p>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <section id="dashboard-view" class="view active">
+                <div class="dashboard-grid">
+                    <!-- Motivation Widget -->
+                    <div class="widget motivation-widget glass-panel">
+                        <h3>Daily Motivation</h3>
+                        <p class="quote-text" id="daily-quote">"Consistency is what transforms average into excellence."</p>
+                    </div>
+
+                    <!-- Streak Widget -->
+                    <div class="widget streak-widget glass-panel neon-border">
+                        <h3>Current Streak</h3>
+                        <div class="streak-circle">
+                            <svg viewBox="0 0 100 100">
+                                <circle class="bg-circle" cx="50" cy="50" r="45"></circle>
+                                <circle class="progress-circle" id="streak-progress" cx="50" cy="50" r="45"></circle>
+                            </svg>
+                            <div class="streak-value">
+                                <span id="streak-days">0</span>
+                                <small>Days</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Adaptive Suggestion Widget -->
+                    <div class="widget suggestion-widget glass-panel">
+                        <h3>Aura Suggests</h3>
+                        <div class="suggestion-card">
+                            <div class="suggestion-icon"><i id="suggestion-icon" class="fa-solid fa-dumbbell"></i></div>
+                            <div class="suggestion-text">
+                                <h4 id="suggestion-title">Analyzing...</h4>
+                                <p id="suggestion-desc">Log more workouts to get personalized suggestions.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="widget history-widget glass-panel">
+                        <h3>Recent Activity</h3>
+                        <ul class="activity-list" id="recent-activity-list">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Log Workout View -->
+            <section id="log-view" class="view">
+                <div class="log-container glass-panel">
+                    <h2>Log Your Session</h2>
+                    <form id="log-form">
+                        <div class="form-group">
+                            <label for="workout-type">Workout Type</label>
+                            <select id="workout-type" required>
+                                <option value="Strength">Strength Training</option>
+                                <option value="Cardio">Cardio</option>
+                                <option value="Flexibility">Yoga / Flexibility</option>
+                                <option value="Rest">Active Rest</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="workout-duration">Duration (mins)</label>
+                            <input type="number" id="workout-duration" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="workout-intensity">Intensity (1-10)</label>
+                            <input type="range" id="workout-intensity" min="1" max="10" value="5">
+                            <span id="intensity-value">5</span>
+                        </div>
+                        <button type="submit" class="btn-primary">Save Workout</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- History View -->
+            <section id="history-view" class="view">
+                <div class="history-container glass-panel">
+                    <h2>Full History</h2>
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Duration</th>
+                                <th>Intensity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="full-history-list">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Profile View -->
+            <section id="profile-view" class="view">
+                <div class="profile-container">
+                    <div class="profile-header glass-panel">
+                        <div class="profile-avatar">
+                            <i class="fa-solid fa-user-gear"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="profile-username">User Name</h2>
+                            <p id="profile-join-date">Member since 2024</p>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-grid" style="margin-top: 30px;">
+                        <div class="widget glass-panel">
+                            <h3>Total Workouts</h3>
+                            <div class="stat-value" id="total-workouts-stat">0</div>
+                        </div>
+                        <div class="widget glass-panel">
+                            <h3>Total Minutes</h3>
+                            <div class="stat-value" id="total-minutes-stat">0</div>
+                        </div>
+                        <div class="widget glass-panel">
+                            <h3>Avg Intensity</h3>
+                            <div class="stat-value" id="avg-intensity-stat">0</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Auth View -->
+            <section id="auth-view" class="view">
+                <div class="auth-container glass-panel" style="max-width: 400px; margin: 0 auto; text-align: center;">
+                    <h2 id="auth-title">Login to Aura</h2>
+                    <p id="auth-error" style="color: #ff6b6b; font-size: 14px; margin-bottom: 10px; display: none;"></p>
+                    <form id="auth-form">
+                        <div class="form-group">
+                            <label for="auth-username">Username</label>
+                            <input type="text" id="auth-username" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--panel-border); background: rgba(255,255,255,0.05); color: #fff;">
+                        </div>
+                        <div class="form-group">
+                            <label for="auth-password">Password</label>
+                            <input type="password" id="auth-password" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--panel-border); background: rgba(255,255,255,0.05); color: #fff;">
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;">Submit</button>
+                    </form>
+                    <p style="margin-top: 20px; font-size: 14px; color: var(--text-muted);">
+                        <span id="auth-toggle-text">Don't have an account?</span> 
+                        <a href="#" id="auth-toggle-link" style="color: var(--accent-cyan); text-decoration: none;">Register</a>
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Edit Workout Modal -->
+    <div id="edit-modal" class="modal-overlay">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2>Edit Workout</h2>
+                <button id="close-modal" class="close-btn">&times;</button>
+            </div>
+            <form id="edit-form">
+                <input type="hidden" id="edit-workout-id">
+                <div class="form-group">
+                    <label for="edit-type">Workout Type</label>
+                    <select id="edit-type" required>
+                        <option value="Strength">Strength Training</option>
+                        <option value="Cardio">Cardio</option>
+                        <option value="Flexibility">Yoga / Flexibility</option>
+                        <option value="Rest">Active Rest</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-duration">Duration (mins)</label>
+                    <input type="number" id="edit-duration" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-intensity">Intensity (1-10)</label>
+                    <input type="range" id="edit-intensity" min="1" max="10">
+                    <span id="edit-intensity-value">5</span>
+                </div>
+                <div class="form-group">
+                    <label for="edit-date">Date</label>
+                    <input type="date" id="edit-date" required>
+                </div>
+                <button type="submit" class="btn-primary">Update Workout</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
